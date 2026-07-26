@@ -17,12 +17,9 @@ Swagger: http://127.0.0.1:8000/docs
 
 - **Build:** `pip install -r requirements.txt`
 - **Start:** `uvicorn prediction:app --host 0.0.0.0 --port $PORT`
-- **Public docs:** `https://<your-service>.onrender.com/docs`
-
-Models are loaded from `../linear_regression/models/` (sibling folder in the monorepo). Deploy the whole repo, set Root Directory to `API`, so the parent still contains `linear_regression/`.
+- **Public docs:** `https://tech-salary-predictor-api.onrender.com`
 
 ## CORS
 
 `allow_origins=["*"]` with `allow_credentials=False`, `allow_methods=["GET","POST"]`.
 Public demo with no auth/PII — wildcard origins are acceptable for who can *call* the free endpoint.
-If auth/PII were added, lock origins to the Flutter app host(s).

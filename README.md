@@ -11,7 +11,7 @@ Best model: RandomForestRegressor (compared against SGD, LinearRegression, Decis
 
 ## YouTube demo
 
-**Video:** https://www.youtube.com/watch?v=YOUR_VIDEO_ID  
+**Video:** https://youtu.be/SLsl_l7sR4s 
 
 ## Project layout
 

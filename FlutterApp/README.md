@@ -7,7 +7,7 @@ Single-page Material app with **six TextFields** (one per API feature) and a **P
 In [`lib/main.dart`](lib/main.dart):
 
 ```dart
-const String apiBaseUrl = "https://YOUR-RENDER-SERVICE.onrender.com";
+const String apiBaseUrl = "https://tech-salary-predictor-api.onrender.com";
 ```
 
 ## Run on mobile (required for demo)
