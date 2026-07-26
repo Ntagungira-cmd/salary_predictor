@@ -7,9 +7,9 @@ Best model: RandomForestRegressor (compared against SGD, LinearRegression, Decis
 
 ## Public API (Swagger)
 
-**Swagger UI:** https://YOUR-RENDER-SERVICE.onrender.com/docs  
+**Swagger UI:** https://tech-salary-predictor-api.onrender.com/docs  
 
-## YouTube demo (≤ 7 minutes)
+## YouTube demo
 
 **Video:** https://www.youtube.com/watch?v=YOUR_VIDEO_ID  
 

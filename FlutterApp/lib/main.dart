@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 
-const String apiBaseUrl = "https://YOUR-RENDER-SERVICE.onrender.com";
+const String apiBaseUrl = "https://tech-salary-predictor-api.onrender.com";
 
 void main() {
   runApp(const SalaryPredictorApp());
@@ -41,7 +41,7 @@ class SalaryPredictorPage extends StatefulWidget {
 class _SalaryPredictorPageState extends State<SalaryPredictorPage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Six TextFields — one per model feature (rubric requirement).
+  // Six TextFields — one per model feature.
   final _experienceCtrl = TextEditingController();
   final _employmentCtrl = TextEditingController();
   final _jobTitleCtrl = TextEditingController();
