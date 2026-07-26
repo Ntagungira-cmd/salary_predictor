@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-// One-line swap after Render deploy, e.g.:
-// const String apiBaseUrl = "https://your-service.onrender.com";
+
 const String apiBaseUrl = "https://YOUR-RENDER-SERVICE.onrender.com";
 
 void main() {
