@@ -1,0 +1,27 @@
+[project]
+name = "tech-salary-predictor"
+version = "1.0.0"
+description = "Tech salary predictor: linear regression, FastAPI, Flutter"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.110",
+    "pydantic>=2.0",
+    "uvicorn[standard]>=0.27",
+    "scikit-learn>=1.3",
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "seaborn>=0.13",
+    "joblib>=1.3",
+    "python-multipart>=0.0.9",
+    "jupyter>=1.0",
+    "ipykernel>=6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["linear_regression"]

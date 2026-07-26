@@ -1,67 +1,88 @@
 # Tech Salary Predictor
 
-**Mission:** close the opportunity gap for young people entering tech careers by
-giving aspiring innovators clear, data-driven visibility into how their choices
-translate into real-world salary outcomes, so mentorship can be targeted
-effectively.
+Mission: close the opportunity gap for young people entering tech by showing how experience, role, remote work, and company choices map to real salary outcomes.
+Problem: predict `salary_in_usd` from six career features so mentors can target advice with data, not guesswork.
+Dataset: Data Science Job Salaries (`ds_salaries.csv`) — not a house-price use case.
+Best model: RandomForestRegressor (compared against SGD, LinearRegression, DecisionTree).
 
-This monorepo has three parts that share one trained model:
+## Public API (Swagger)
 
-| Folder | Role |
-|--------|------|
-| [`regression/`](regression/) | EDA, feature engineering, 4-model comparison, export `best_model.pkl` |
-| [`api/`](api/) | FastAPI service wrapping the model (`/predict`, `/retrain`) |
-| [`flutter_app/`](flutter_app/) | Material UI that POSTs to the API |
+**Swagger UI:** https://YOUR-RENDER-SERVICE.onrender.com/docs  
 
-Dataset: [Data Science Job Salaries](ds_salaries.csv) (`salary_in_usd` target).
+Replace the placeholder after you deploy on Render (see below). Graders should use this public URL, not localhost.
+
+## YouTube demo (≤ 7 minutes)
+
+**Video:** https://www.youtube.com/watch?v=YOUR_VIDEO_ID  
+
+Script for recording: [`VIDEO_DEMO_SCRIPT.md`](VIDEO_DEMO_SCRIPT.md)
+
+## Project layout
 
 ```
-ds_salaries.csv ──► regression/pipeline.py ──► models/*.pkl ──► api/main.py
-                                                              ▲
-                                                     flutter_app (POST /predict)
+summative/
+  pyproject.toml          # uv package management
+  uv.lock
+  linear_regression/      # multivariate.ipynb + pipeline + models
+  API/prediction.py       # FastAPI /predict + /retrain
+  FlutterApp/             # single-page mobile client
 ```
 
-## Quick start
-
-### 1. Python env + Part 1 (train)
+## Setup with uv
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r regression/requirements.txt
-
-cd regression
-python 01_eda.py
-python 02_feature_engineering.py
-python 03_train_compare.py
-python 04_save_best_model.py
-python 05_predict_example.py
+# from this folder (summative/)
+curl -LsSf https://astral.sh/uv/install.sh | sh   # once
+uv sync
 ```
 
-Artifacts land in `regression/figures/` and `regression/models/`.
-
-### 2. Part 2 (API)
+Train / notebook:
 
 ```bash
-pip install -r api/requirements.txt
-cd api
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+cd linear_regression
+uv run python 01_eda.py
+uv run python 03_train_compare.py
+uv run python 04_save_best_model.py
+uv run jupyter notebook multivariate.ipynb
 ```
 
-Swagger: http://127.0.0.1:8000/docs — see [`api/README.md`](api/README.md) for Render deploy.
-
-### 3. Part 3 (Flutter)
+## Run API locally
 
 ```bash
-cd flutter_app
+cd API
+uv run uvicorn prediction:app --reload --host 0.0.0.0 --port 8000
+# http://127.0.0.1:8000/docs
+```
+
+## Deploy API on Render
+
+1. Push this repo to GitHub.
+2. Create a **Web Service** on [Render](https://render.com).
+3. Settings:
+   - **Root Directory:** `API` (if repo root is `summative`) — or `summative/API` if the GitHub repo is `linear_regression_model` with a `summative/` folder.
+   - **Build Command:** `pip install -r requirements.txt && pip install scikit-learn pandas numpy joblib`
+   - **Start Command:** `uvicorn prediction:app --host 0.0.0.0 --port $PORT`
+4. Ensure `../linear_regression/models/best_model.pkl` and `preprocessor.pkl` are in the repo (they are). The API resolves models relative to the repo parent.
+5. After deploy, copy `https://<service>.onrender.com/docs` into this README and into `FlutterApp/lib/main.dart` (`apiBaseUrl`).
+
+A [`render.yaml`](render.yaml) Blueprint is included for one-click setup from the monorepo root.
+
+## Run the Flutter mobile app
+
+```bash
+cd FlutterApp
+# set apiBaseUrl in lib/main.dart to your Render URL first
 flutter pub get
-flutter run -d chrome   # or any device
+flutter devices
+flutter run -d <android_emulator_or_iphone>   # mobile — not Chrome
 ```
 
-Set `apiBaseUrl` at the top of [`flutter_app/lib/main.dart`](flutter_app/lib/main.dart)
-to your local or Render URL.
+On a physical phone, the device must reach the public Render URL (not `localhost`).
 
-## Model inputs
+## Endpoints
 
-`experience_level`, `employment_type`, `job_title` (→ role family),
-`remote_ratio`, `company_size`, `company_location` → predicted `salary_in_usd`.
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/health` | Status |
+| POST | `/predict` | Salary prediction (6 typed fields) |
+| POST | `/retrain` | Upload CSV → append data → retrain → backup old model |

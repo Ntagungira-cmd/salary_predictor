@@ -7,18 +7,21 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .mypy_cache/
+.ipynb_checkpoints/
+dist/
+*.egg
 
 # Large cached training dump (best_model + preprocessor are kept)
-regression/models/train_compare_results.pkl
-regression/models/backup_*/
+linear_regression/models/train_compare_results.pkl
+linear_regression/models/backup_*/
 
 # Flutter
-flutter_app/.dart_tool/
-flutter_app/.packages
-flutter_app/build/
-flutter_app/.flutter-plugins
-flutter_app/.flutter-plugins-dependencies
-flutter_app/ios/Pods/
-flutter_app/ios/.symlinks/
-flutter_app/android/.gradle/
-flutter_app/android/local.properties
+FlutterApp/.dart_tool/
+FlutterApp/.packages
+FlutterApp/build/
+FlutterApp/.flutter-plugins
+FlutterApp/.flutter-plugins-dependencies
+FlutterApp/ios/Pods/
+FlutterApp/ios/.symlinks/
+FlutterApp/android/.gradle/
+FlutterApp/android/local.properties
